@@ -21,10 +21,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Barlow:wght@400;500;600&family=Literata:ital,opsz,wght@1,7..72,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/kweni.css">
+<script>(function(d){try{if(sessionStorage.getItem('kweni-nav')){sessionStorage.removeItem('kweni-nav');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('arriving');setTimeout(function(){d.classList.remove('arriving')},2500)}}}catch(e){}})(document.documentElement)</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Kweni Studio", "url": "https://kwenistudio.vercel.app", "logo": "https://kwenistudio.vercel.app/logo.png", "email": "kwenistudio@gmail.com", "foundingDate": "2026", "founder": {"@type": "Person", "name": "Yao Baba Ange Emmanuel"}, "address": {"@type": "PostalAddress", "addressLocality": "Abidjan", "addressCountry": "CI"}, "sameAs": ["https://www.linkedin.com/in/yao-babaange-emmanuel"]}</script>
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
+<div class="scroll-progress" aria-hidden="true"></div>
+<div class="curtain" aria-hidden="true"><i></i></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span></span></div>
+<div class="loader" id="loader" aria-hidden="true"><div class="lgems"><span class="lg" style="--c:#B5652B;transform:translate(0px,-240px)"><i></i></span><span class="lg" style="--c:#2E7BD6;transform:translate(114px,-157px)"><i></i></span><span class="lg" style="--c:#E8121A;transform:translate(71px,-23px)"><i></i></span><span class="lg" style="--c:#D4A017;transform:translate(-71px,-23px)"><i></i></span><span class="lg" style="--c:#CFE3F0;transform:translate(-114px,-157px)"><i></i></span></div><div class="lword"><span class="w"><span class="c">K</span></span><span class="w"><span class="c">W</span></span><span class="w"><span class="c">E</span></span><span class="w"><span class="c">N</span></span><span class="w"><span class="c">I</span></span></div><p class="lnote">Les cinq pierres s'éveillent</p><div class="lcount">0</div></div>
 <header class="site-header">
 <nav class="nav" aria-label="Navigation principale">
 <a class="brand" href="index.html"><img src="logo.png" alt="" width="38" height="38"><span>Kweni<small>Studio</small></span></a>
@@ -65,9 +71,12 @@
 </section>
 
 <section class="halls" id="salles" aria-labelledby="halls-title">
+<div class="halls-tint" aria-hidden="true"></div>
+<p class="halls-count" aria-hidden="true"><span class="clip"><b>1</b></span> / 6</p>
 <div class="halls-head"><h2 class="d2" id="halls-title">Le musée des mondes</h2><p>Six salles, six univers. Chaque jeu est gratuit et se lance dans ton navigateur.</p></div>
 <div class="halls-track">
 <article class="hall" style="--accent:#E59A2F" aria-labelledby="h-pierre-et-force">
+<span class="hall-ghost" aria-hidden="true">01</span>
 <div class="hall-text">
 <p class="hall-num">Salle 1 sur 6<span class="badge">Nouveau</span></p>
 <h3 class="d2 hall-title" id="h-pierre-et-force">De Pierre et de Force<small>L'Éveil</small></h3>
@@ -75,7 +84,7 @@
 <p class="pitch">Marcory, 1996. Tarine Keïta, 13 ans, reçoit une pierre qui respire. Forme ton équipe de Gardiens du Sud et affronte l'Empire du Nord pour les cinq pierres de Kankou Moussa.</p>
 <div class="actions"><a class="btn btn-play" href="https://pierre-et-force.vercel.app/" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Jouer<span class="sr"> (nouvel onglet)</span></a><a class="btn btn-ghost" href="jeux/pierre-et-force.html">Découvrir</a></div>
 </div>
-<a class="arch" href="jeux/pierre-et-force.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<a class="arch" href="jeux/pierre-et-force.html" tabindex="-1" aria-hidden="true" data-cursor="Entrer"><span class="arch-in"><svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <defs><linearGradient id="pefsky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060814"/><stop offset=".55" stop-color="#1c0d12"/><stop offset="1" stop-color="#3a1206"/></linearGradient>
 <radialGradient id="pefglow1" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#D4A017" stop-opacity=".95"/><stop offset=".3" stop-color="#D4A017" stop-opacity=".35"/><stop offset="1" stop-color="#D4A017" stop-opacity="0"/></radialGradient></defs>
 <rect width="800" height="1000" fill="url(#pefsky1)"/>
@@ -95,6 +104,7 @@
 </svg><img src="PIERRE-ET-FORCE.jpg" alt="" loading="lazy" data-fallback width="1672" height="941"></span></a>
 </article>
 <article class="hall" style="--accent:#F28C28" aria-labelledby="h-aem-coupe-du-monde">
+<span class="hall-ghost" aria-hidden="true">02</span>
 <div class="hall-text">
 <p class="hall-num">Salle 2 sur 6<span class="badge">Nouveau</span></p>
 <h3 class="d2 hall-title" id="h-aem-coupe-du-monde">African Elite Manager<small>Édition Coupe du Monde 2026</small></h3>
@@ -102,7 +112,7 @@
 <p class="pitch">48 nations, un seul trophée. Deviens sélectionneur, choisis ton dispositif, fais la causerie et mène ta nation jusqu'au bout, tirs au but compris.</p>
 <div class="actions"><a class="btn btn-play" href="https://aemworldcup.vercel.app/" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Jouer<span class="sr"> (nouvel onglet)</span></a><a class="btn btn-ghost" href="jeux/aem-coupe-du-monde.html">Découvrir</a></div>
 </div>
-<a class="arch" href="jeux/aem-coupe-du-monde.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<a class="arch" href="jeux/aem-coupe-du-monde.html" tabindex="-1" aria-hidden="true" data-cursor="Entrer"><span class="arch-in"><svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <defs><linearGradient id="wcsky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050a14"/><stop offset=".6" stop-color="#0c2233"/><stop offset="1" stop-color="#0a1a10"/></linearGradient>
 <radialGradient id="wcl2" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
 <linearGradient id="wcgold2" x1="0" x2="1"><stop offset="0" stop-color="#8a6410"/><stop offset=".5" stop-color="#F2C94C"/><stop offset="1" stop-color="#8a6410"/></linearGradient>
@@ -125,6 +135,7 @@
 </svg><img src="AEM-WORLDCUP.jpg" alt="" loading="lazy" data-fallback width="1672" height="941"></span></a>
 </article>
 <article class="hall" style="--accent:#2BB673" aria-labelledby="h-africa-elite-manager">
+<span class="hall-ghost" aria-hidden="true">03</span>
 <div class="hall-text">
 <p class="hall-num">Salle 3 sur 6</p>
 <h3 class="d2 hall-title" id="h-africa-elite-manager">Africa Elite Manager<small>Le football manager africain</small></h3>
@@ -132,9 +143,10 @@
 <p class="pitch">Entraîne les meilleurs talents du continent, développe ton équipe et impose-toi dans les compétitions africaines, saison après saison.</p>
 <div class="actions"><a class="btn btn-play" href="https://africa-elite-game.vercel.app/" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Jouer<span class="sr"> (nouvel onglet)</span></a><a class="btn btn-ghost" href="jeux/africa-elite-manager.html">Découvrir</a></div>
 </div>
-<a class="arch" href="jeux/africa-elite-manager.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><img src="AEM.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
+<a class="arch" href="jeux/africa-elite-manager.html" tabindex="-1" aria-hidden="true" data-cursor="Entrer"><span class="arch-in"><img src="AEM.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
 </article>
 <article class="hall" style="--accent:#C9A227" aria-labelledby="h-africa-elite-club-manager">
+<span class="hall-ghost" aria-hidden="true">04</span>
 <div class="hall-text">
 <p class="hall-num">Salle 4 sur 6</p>
 <h3 class="d2 hall-title" id="h-africa-elite-club-manager">Africa Elite Club Manager<small>Ton club, de A à Z</small></h3>
@@ -142,9 +154,10 @@
 <p class="pitch">Tactiques, mercato, finances, infrastructures : gère un club africain de fond en comble. Chaque décision compte.</p>
 <div class="actions"><a class="btn btn-play" href="https://africaelitechampionshipmanager.vercel.app/" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Jouer<span class="sr"> (nouvel onglet)</span></a><a class="btn btn-ghost" href="jeux/africa-elite-club-manager.html">Découvrir</a></div>
 </div>
-<a class="arch" href="jeux/africa-elite-club-manager.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><img src="AECM.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
+<a class="arch" href="jeux/africa-elite-club-manager.html" tabindex="-1" aria-hidden="true" data-cursor="Entrer"><span class="arch-in"><img src="AECM.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
 </article>
 <article class="hall" style="--accent:#9B6BFF" aria-labelledby="h-buzzking">
+<span class="hall-ghost" aria-hidden="true">05</span>
 <div class="hall-text">
 <p class="hall-num">Salle 5 sur 6</p>
 <h3 class="d2 hall-title" id="h-buzzking">BuzzKing<small>Rapivoire</small></h3>
@@ -152,9 +165,10 @@
 <p class="pitch">Pars de zéro et deviens une star du rap. Produis tes sons, gère tes clashs, fais grandir ta fanbase et conquiers les classements.</p>
 <div class="actions"><a class="btn btn-play" href="https://rapivoire.vercel.app/" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Jouer<span class="sr"> (nouvel onglet)</span></a><a class="btn btn-ghost" href="jeux/buzzking.html">Découvrir</a></div>
 </div>
-<a class="arch" href="jeux/buzzking.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><img src="BUZZKING.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
+<a class="arch" href="jeux/buzzking.html" tabindex="-1" aria-hidden="true" data-cursor="Entrer"><span class="arch-in"><img src="BUZZKING.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
 </article>
 <article class="hall" style="--accent:#E8121A" aria-labelledby="h-pensee-ia">
+<span class="hall-ghost" aria-hidden="true">06</span>
 <div class="hall-text">
 <p class="hall-num">Salle 6 sur 6</p>
 <h3 class="d2 hall-title" id="h-pensee-ia">Pensée IA<small>Le labo</small></h3>
@@ -162,7 +176,7 @@
 <p class="pitch">Des agents spécialisés pour réfléchir, auditer, coder, créer et planifier, avec mémoire persistante et vision multimodale. L'outil qui alimente l'écosystème Kweni.</p>
 <div class="actions"><a class="btn btn-play" href="https://pens-e-ia.vercel.app/" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Essayer<span class="sr"> (nouvel onglet)</span></a><a class="btn btn-ghost" href="studio.html#labo">Découvrir</a></div>
 </div>
-<a class="arch" href="studio.html#labo" tabindex="-1" aria-hidden="true"><span class="arch-in"><img src="PENSER.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
+<a class="arch" href="studio.html#labo" tabindex="-1" aria-hidden="true" data-cursor="Entrer"><span class="arch-in"><img src="PENSER.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
 </article>
 </div>
 <div class="halls-progress" aria-hidden="true"><b></b></div>
@@ -188,6 +202,7 @@
 </div>
 </section>
 
+<div class="marquee" aria-hidden="true"><div class="marquee-in"><span>Terre<i></i></span><span><em>De Pierre et de Force</em><i></i></span><span>Eau<i></i></span><span><em>African Elite Manager</em><i></i></span><span>Feu<i></i></span><span><em>BuzzKing</em><i></i></span><span>Équilibre<i></i></span><span><em>Club Manager</em><i></i></span><span>Air<i></i></span><span><em>Pensée IA</em><i></i></span><span>Terre<i></i></span><span><em>De Pierre et de Force</em><i></i></span><span>Eau<i></i></span><span><em>African Elite Manager</em><i></i></span><span>Feu<i></i></span><span><em>BuzzKing</em><i></i></span><span>Équilibre<i></i></span><span><em>Club Manager</em><i></i></span><span>Air<i></i></span><span><em>Pensée IA</em><i></i></span></div></div>
 <section class="manifesto" aria-label="Manifeste">
 <div class="wrap"><p class="d1"><span>L'Afrique a</span><span>les histoires.</span><span>On a les outils.</span></p></div>
 </section>
@@ -223,12 +238,15 @@
 <span>© 2025–<span data-year>2026</span> Kweni Studio. Tous droits réservés.</span>
 <span>Pensé, codé et designé à Abidjan <span class="flag" role="img" aria-label="Côte d'Ivoire"><i></i><i></i><i></i></span></span>
 </div>
+<p class="footer-mark" aria-hidden="true">Kweni Studio</p>
 </div>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="assets/js/stones.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
 <script src="assets/js/kweni.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="assets/js/stones.js" defer></script>
+<script src="assets/js/motion.js" defer></script>
 </body>
 </html>

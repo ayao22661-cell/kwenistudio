@@ -21,10 +21,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Barlow:wght@400;500;600&family=Literata:ital,opsz,wght@1,7..72,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/kweni.css">
+<script>(function(d){try{if(sessionStorage.getItem('kweni-nav')){sessionStorage.removeItem('kweni-nav');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('arriving');setTimeout(function(){d.classList.remove('arriving')},2500)}}}catch(e){}})(document.documentElement)</script>
 
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
+<div class="scroll-progress" aria-hidden="true"></div>
+<div class="curtain" aria-hidden="true"><i></i></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span></span></div>
 <header class="site-header">
 <nav class="nav" aria-label="Navigation principale">
 <a class="brand" href="index.html"><img src="logo.png" alt="" width="38" height="38"><span>Kweni<small>Studio</small></span></a>
@@ -97,8 +102,13 @@
 <span>© 2025–<span data-year>2026</span> Kweni Studio. Tous droits réservés.</span>
 <span>Pensé, codé et designé à Abidjan <span class="flag" role="img" aria-label="Côte d'Ivoire"><i></i><i></i><i></i></span></span>
 </div>
+<p class="footer-mark" aria-hidden="true">Kweni Studio</p>
 </div>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
 <script src="assets/js/kweni.js" defer></script>
+<script src="assets/js/motion.js" defer></script>
 </body>
 </html>

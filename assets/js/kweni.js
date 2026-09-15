@@ -24,45 +24,13 @@
     });
   }
 
+  // Menu : pas de défilement de fond
   // Images manquantes : on garde le visuel SVG de secours
   document.querySelectorAll('img[data-fallback]').forEach(function (img) {
     function drop() { img.remove(); }
     if (img.complete && img.naturalWidth === 0) drop();
     else img.addEventListener('error', drop);
   });
-
-  // Galerie horizontale des salles (accueil, grand écran)
-  var halls = document.querySelector('.halls');
-  if (halls && window.gsap && window.ScrollTrigger && !reduce) {
-    gsap.registerPlugin(ScrollTrigger);
-    var mm = gsap.matchMedia();
-    mm.add('(min-width: 1000px)', function () {
-      halls.classList.add('js-hscroll');
-      var track = halls.querySelector('.halls-track');
-      var bar = halls.querySelector('.halls-progress b');
-      var dist = function () { return track.scrollWidth - window.innerWidth; };
-      var tween = gsap.to(track, {
-        x: function () { return -dist(); },
-        ease: 'none',
-        scrollTrigger: {
-          trigger: halls, start: 'top top', end: function () { return '+=' + dist(); },
-          pin: true, scrub: 0.6, invalidateOnRefresh: true, anticipatePin: 1,
-          snap: { snapTo: 1 / (track.children.length - 1), duration: { min: 0.2, max: 0.6 }, delay: 0.15, ease: 'power2.inOut' },
-          onUpdate: function (s) { if (bar) bar.style.width = (s.progress * 100) + '%'; }
-        }
-      });
-      // Les liens au clavier restent visibles
-      track.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('focus', function () {
-          var hall = a.closest('.hall'); if (!hall) return;
-          var st = tween.scrollTrigger;
-          var p = hall.offsetLeft / dist();
-          window.scrollTo(0, st.start + (st.end - st.start) * Math.min(1, p));
-        });
-      });
-      return function () { halls.classList.remove('js-hscroll'); gsap.set(track, { clearProps: 'all' }); };
-    });
-  }
 
   // Formulaire de contact : ouvre la messagerie avec le message prêt
   var form = document.querySelector('#contact-form');
@@ -95,6 +63,15 @@
       g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
       o.connect(g).connect(ctx.destination); o.start(t); o.stop(t + 0.4);
     }
+    window.kweniAudio = {
+      tone: function (f) {
+        if (!ctx || soundBtn.getAttribute('aria-pressed') !== 'true') return;
+        var t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'triangle'; o.frequency.setValueAtTime(f * 2, t);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.25, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.4);
+        o.connect(g).connect(ctx.destination); o.start(t); o.stop(t + 1.5);
+      }
+    };
     function tick() {
       if (pattern[step % 16]) hit(ctx.currentTime + 0.02, step % 8 === 0);
       step++;
