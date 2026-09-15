@@ -1,0 +1,46 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/projets",
+      "destination": "/jeux",
+      "permanent": true
+    },
+    {
+      "source": "/vision",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/fondateur",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/roadmap",
+      "destination": "/studio#roadmap",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).jpg",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    }
+  ]
+}
