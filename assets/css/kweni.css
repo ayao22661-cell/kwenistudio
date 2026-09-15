@@ -134,7 +134,10 @@ p{margin:0 0 1em}
 }
 
 /* Arch frame (porte soudano-sahélienne) */
-.arch{position:relative;display:block;aspect-ratio:4/5;width:min(calc(100% - 36px),520px);justify-self:center;margin:18px}
+.arch{position:relative;display:block;aspect-ratio:4/5;width:min(calc(100% - 36px),520px);justify-self:center;margin:18px;max-height:80vh}
+@media (min-width:1000px){
+  .arch{width:auto;height:min(70vh,520px);max-height:none}
+}
 .arch-in{position:absolute;inset:0;border-radius:999px 999px 6px 6px/55% 55% 6px 6px;overflow:hidden;background:#0c0a09}
 .arch-in img,.arch-in svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.8,.1,1)}
 .arch:hover .arch-in img{transform:scale(1.05)}
