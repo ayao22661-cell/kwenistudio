@@ -129,6 +129,7 @@ p{margin:0 0 1em}
   .js-hscroll .halls-head .d2{font-size:clamp(20px,1.6vw,24px);letter-spacing:.02em}
   .js-hscroll .halls-head p{display:none}
   .js-hscroll .hall-text{padding-top:40px}
+  .js-hscroll .arch{width:auto;max-width:none;height:min(72svh,540px);aspect-ratio:4/5;margin:0}
 }
 .halls-progress{display:none}
 .js-hscroll .halls-progress{display:block;position:absolute;left:var(--pad);right:var(--pad);bottom:36px;height:2px;background:var(--line);z-index:5}
