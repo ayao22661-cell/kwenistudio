@@ -244,8 +244,6 @@
   if (reduce) window.addEventListener('scroll', function () { if (!running) { running = true; requestAnimationFrame(frame); } }, { passive: true });
 
   // Démarre quand l'écran d'ouverture se retire
-  if (root.classList.contains('is-ready')) begin();
-  else window.addEventListener('kweni:ready', begin, { once: true });
-  setTimeout(begin, 4500);
-  setTimeout(wake, 6000);
+  begin();
+  setTimeout(wake, 2500);
 })();
