@@ -34,39 +34,44 @@
 
   var mm = gsap.matchMedia();
   mm.add('(min-width: 1000px)', function () {
-    halls.classList.add('js-hscroll');
-    var dist = function () { return track.scrollWidth - window.innerWidth; };
-    var tween = gsap.to(track, {
-      x: function () { return -dist(); },
-      ease: 'none',
-      scrollTrigger: {
-        trigger: halls,
-        start: 'top top',
-        end: function () { return '+=' + dist(); },
-        pin: true,
-        scrub: 0.5,
-        invalidateOnRefresh: true,
-        snap: { snapTo: 1 / (hallEls.length - 1), duration: { min: 0.2, max: 0.5 }, delay: 0.1 },
-        onUpdate: function (s) {
-          if (bar) bar.style.transform = 'scaleX(' + s.progress + ')';
-          var i = Math.round(s.progress * (hallEls.length - 1));
-          if (i !== current) {
-            current = i;
-            if (counter) counter.textContent = i + 1;
-            if (tint) tint.style.backgroundColor = hallEls[i].style.getPropertyValue('--accent');
+    try {
+      halls.classList.add('js-hscroll');
+      var dist = function () { return track.scrollWidth - window.innerWidth; };
+      var tween = gsap.to(track, {
+        x: function () { return -dist(); },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: halls,
+          start: 'top top',
+          end: function () { return '+=' + dist(); },
+          pin: true,
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+          snap: { snapTo: 1 / (hallEls.length - 1), duration: { min: 0.2, max: 0.5 }, delay: 0.1 },
+          onUpdate: function (s) {
+            if (bar) bar.style.transform = 'scaleX(' + s.progress + ')';
+            var i = Math.round(s.progress * (hallEls.length - 1));
+            if (i !== current) {
+              current = i;
+              if (counter) counter.textContent = i + 1;
+              if (tint) tint.style.backgroundColor = hallEls[i].style.getPropertyValue('--accent');
+            }
           }
         }
-      }
-    });
+      });
 
-    // Clavier : amène la salle focalisée à l'écran
-    track.addEventListener('focusin', function (e) {
-      var hall = e.target.closest('.hall'); if (!hall) return;
-      var st = tween.scrollTrigger;
-      window.scrollTo(0, st.start + (st.end - st.start) * Math.min(1, hall.offsetLeft / dist()));
-    });
+      // Clavier : amène la salle focalisée à l'écran
+      track.addEventListener('focusin', function (e) {
+        var hall = e.target.closest('.hall'); if (!hall) return;
+        var st = tween.scrollTrigger;
+        window.scrollTo(0, st.start + (st.end - st.start) * Math.min(1, hall.offsetLeft / dist()));
+      });
 
-    return function () { halls.classList.remove('js-hscroll'); gsap.set(track, { clearProps: 'all' }); };
+      return function () { halls.classList.remove('js-hscroll'); gsap.set(track, { clearProps: 'all' }); };
+    } catch (e) {
+      halls.classList.remove('js-hscroll');
+      gsap.set(track, { clearProps: 'all' });
+    }
   });
 
   // Recalcule les positions quand la page est vraiment prête (polices, images)
