@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roadmap — Kweni Studio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23E8121A'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='18' fill='white'>K</text></svg>"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --red:#E8121A;--red-dark:#b50e14;
+      --black:#0c0c0c;--dark:#111111;
+      --white:#f0f0f0;--grey:#666;
+      --border:rgba(255,255,255,0.07);
+      --fh:'Barlow Condensed',sans-serif;
+      --fb:'Barlow',sans-serif;
+    }
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{background:var(--black);color:var(--white);font-family:var(--fb);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
+
+    /* CURSOR */
+    .cursor{position:fixed;pointer-events:none;z-index:9999;width:12px;height:12px;background:var(--red);border-radius:0;transform:translate(-50%,-50%);transition:width .2s,height .2s}
+    .cursor-ring{position:fixed;pointer-events:none;z-index:9998;width:36px;height:36px;border:1px solid rgba(232,18,26,.5);border-radius:0;transform:translate(-50%,-50%);transition:width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1)}
+    body:has(a:hover) .cursor,body:has(button:hover) .cursor{width:8px;height:8px;background:var(--white)}
+    body:has(a:hover) .cursor-ring,body:has(button:hover) .cursor-ring{width:52px;height:52px;border-radius:50%}
+    @media(hover:none){.cursor,.cursor-ring{display:none}body{cursor:auto}}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:68px;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+    nav.stuck{background:rgba(12,12,12,.96);border-color:var(--border)}
+    .nav-logo img{height:38px;display:block}
+    .nav-links{display:flex;list-style:none}
+    .nav-links a{display:block;padding:0 22px;height:68px;line-height:68px;font-family:var(--fh);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(240,240,240,.55);text-decoration:none;transition:color .2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--white)}
+    .nav-links a.active{color:var(--red)}
+    .nav-btn{font-family:var(--fh);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white);background:var(--red);padding:10px 24px;text-decoration:none;transition:background .2s}
+    .nav-btn:hover{background:var(--red-dark)}
+    .nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;background:none;border:none;cursor:none;padding:4px}
+    .nav-hamburger span{display:block;height:2px;background:var(--white);transition:transform .3s,opacity .3s;width:100%}
+    .nav-hamburger span:nth-child(2){width:70%}
+    .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nav-hamburger.open span:nth-child(2){opacity:0}
+    .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);width:100%}
+    .nav-mobile{position:fixed;top:68px;left:0;right:0;bottom:0;background:rgba(12,12,12,.98);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:190;transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+    .nav-mobile.open{transform:translateX(0)}
+    .nav-mobile a{font-family:var(--fh);font-size:clamp(36px,8vw,56px);font-weight:900;text-transform:uppercase;color:rgba(240,240,240,.4);text-decoration:none;padding:16px 0;border-bottom:1px solid var(--border);width:80%;text-align:center;transition:color .2s}
+    .nav-mobile a:last-child{border-bottom:none;color:var(--red);margin-top:24px;font-size:clamp(18px,4vw,24px);letter-spacing:.1em}
+    .nav-mobile a:hover{color:var(--white)}
+    @media(max-width:960px){nav{padding:0 24px}.nav-links,.nav-btn{display:none}.nav-hamburger{display:flex}}
+
+    /* REVEAL */
+    .r{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+    .r.in{opacity:1;transform:none}
+    .r[data-d="1"]{transition-delay:.1s}.r[data-d="2"]{transition-delay:.18s}.r[data-d="3"]{transition-delay:.26s}.r[data-d="4"]{transition-delay:.34s}
+
+    /* PAGE HERO */
+    .page-hero{
+      padding:160px 56px 96px;
+      position:relative;overflow:hidden;
+      border-bottom:1px solid var(--border);
+    }
+    .page-hero-bg{
+      position:absolute;top:0;right:0;bottom:0;width:45%;
+      background:linear-gradient(to left,rgba(232,18,26,.04),transparent);
+      pointer-events:none;
+    }
+    .page-hero-grid{
+      position:absolute;inset:0;
+      background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+      background-size:80px 80px;opacity:.25;
+      mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,.5) 40%,transparent);
+    }
+    .breadcrumb{
+      font-family:var(--fh);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+      color:rgba(240,240,240,.25);margin-bottom:32px;
+      display:flex;align-items:center;gap:10px;
+    }
+    .breadcrumb a{color:var(--red);text-decoration:none}
+    .breadcrumb span{opacity:.4}
+    .page-title{
+      font-family:var(--fh);font-weight:900;
+      font-size:clamp(64px,10vw,160px);
+      line-height:.9;text-transform:uppercase;letter-spacing:-2px;
+      margin-bottom:32px;
+    }
+    .page-title .red{color:var(--red)}
+    .page-subtitle{
+      font-size:18px;line-height:1.7;
+      color:rgba(240,240,240,.5);
+      max-width:580px;
+    }
+
+    /* SECTIONS */
+    .section{padding:96px 56px; position:relative;}
+    .section-alt{background:var(--dark)}
+    .tag{font-family:var(--fh);font-size:12px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--red);margin-bottom:48px;display:flex;align-items:center;gap:14px}
+    .tag::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;flex-shrink:0}
+    h2.sh{font-family:var(--fh);font-weight:900;font-size:clamp(44px,5.5vw,80px);line-height:.93;text-transform:uppercase;letter-spacing:-.5px}
+    h2.sh .red{color:var(--red)}
+
+    /* FOOTER */
+    footer{background:#080808;border-top:1px solid var(--border);padding:56px 56px 32px}
+    .footer-bot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-top:32px;border-top:1px solid var(--border)}
+    .footer-bot span{font-size:12px;color:var(--grey);letter-spacing:.04em}
+    .footer-links{display:flex;gap:32px;flex-wrap:wrap;margin-bottom:32px}
+    .footer-links a{font-family:var(--fh);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,240,240,.35);text-decoration:none;transition:color .2s}
+    .footer-links a:hover{color:var(--white)}
+
+    /* ORB & GEO */
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;opacity:.05}
+    .geo-shape{position:absolute;pointer-events:none;border:1px solid rgba(232,18,26,.1);animation:geoRotate var(--gd,20s) linear infinite}
+    @keyframes geoRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+    /* CUSTOM COMPONENT STYLES */
+    /* Roadmap Timeline */
+    .timeline{position:relative; margin-top:64px; padding-left:48px;}
+    .timeline::before{content:''; position:absolute; top:0; bottom:0; left:11px; width:2px; background:var(--border);}
+    .timeline-item{position:relative; margin-bottom:64px;}
+    .timeline-item:last-child{margin-bottom:0;}
+    .timeline-dot{position:absolute; left:-48px; top:0; width:24px; height:24px; background:var(--black); border:2px solid var(--red); border-radius:50%; z-index:2; transition:background .3s, transform .3s;}
+    .timeline-item:hover .timeline-dot{background:var(--red); transform:scale(1.2);}
+    .timeline-date{font-family:var(--fh); font-size:14px; font-weight:700; letter-spacing:.15em; color:var(--red); margin-bottom:12px; text-transform:uppercase;}
+    .timeline-title{font-family:var(--fh); font-size:32px; font-weight:900; text-transform:uppercase; margin-bottom:16px; line-height:1;}
+    .timeline-desc{font-size:16px; line-height:1.7; color:rgba(240,240,240,.55); max-width:600px;}
+    .timeline-status{display:inline-block; padding:4px 12px; font-size:11px; font-family:var(--fh); text-transform:uppercase; letter-spacing:.1em; margin-top:16px; background:rgba(240,240,240,.05); border:1px solid rgba(240,240,240,.1); border-radius:100px;}
+    .status-done{color:#4CAF50; border-color:rgba(76,175,80,.3); background:rgba(76,175,80,.05);}
+    .status-active{color:var(--red); border-color:rgba(232,18,26,.3); background:rgba(232,18,26,.05);}
+
+    /* Fondateur */
+    .founder-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px; margin-top:64px; align-items:center;}
+    .founder-img{position:relative; aspect-ratio:3/4; background:var(--dark); border:1px solid var(--border); overflow:hidden;}
+    .founder-img img{width:100%; height:100%; object-fit:cover; filter:grayscale(100%) contrast(1.2); transition:filter .5s, transform .5s;}
+    .founder-img:hover img{filter:grayscale(0%); transform:scale(1.05);}
+    .founder-img::after{content:''; position:absolute; inset:0; border:12px solid var(--black); pointer-events:none;}
+    .founder-content p{font-size:16px; line-height:1.8; color:rgba(240,240,240,.6); margin-bottom:24px;}
+    .founder-quote{padding:32px; border-left:3px solid var(--red); background:rgba(232,18,26,.03); margin-top:40px;}
+    .founder-quote p{font-family:var(--fh); font-size:24px; font-weight:700; color:var(--white); margin-bottom:0; line-height:1.3; text-transform:uppercase; letter-spacing:-.2px;}
+    .founder-stats{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px; border-top:1px solid var(--border); padding-top:48px;}
+    .f-stat-n{font-family:var(--fh); font-size:48px; font-weight:900; color:var(--red); line-height:1; margin-bottom:8px;}
+    .f-stat-l{font-size:12px; font-family:var(--fh); text-transform:uppercase; letter-spacing:.1em; color:rgba(240,240,240,.4);}
+
+    /* Contact */
+    .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:96px; margin-top:64px;}
+    .contact-info{display:flex; flex-direction:column; gap:40px;}
+    .c-block h3{font-family:var(--fh); font-size:20px; text-transform:uppercase; letter-spacing:.05em; margin-bottom:16px;}
+    .c-block p, .c-block a{font-size:16px; color:rgba(240,240,240,.5); text-decoration:none; transition:color .2s; line-height:1.6;}
+    .c-block a:hover{color:var(--red);}
+    .contact-form{background:var(--dark); padding:48px; border:1px solid var(--border);}
+    .form-group{margin-bottom:24px;}
+    .form-group label{display:block; font-family:var(--fh); font-size:13px; text-transform:uppercase; letter-spacing:.1em; color:rgba(240,240,240,.5); margin-bottom:8px;}
+    .form-group input, .form-group textarea{width:100%; background:var(--black); border:1px solid var(--border); color:var(--white); padding:16px; font-family:var(--fb); font-size:15px; outline:none; transition:border-color .3s;}
+    .form-group input:focus, .form-group textarea:focus{border-color:var(--red);}
+    .btn-submit{display:inline-block; background:var(--red); color:var(--white); font-family:var(--fh); font-weight:700; text-transform:uppercase; letter-spacing:.1em; padding:16px 32px; border:none; cursor:none; transition:background .3s; width:100%; text-align:center;}
+    .btn-submit:hover{background:var(--red-dark);}
+
+    /* CTA SECTION */
+    .cta-section{padding:96px 56px;background:var(--dark);border-top:1px solid var(--border);text-align:center;}
+    .cta-section h2{font-family:var(--fh);font-size:clamp(40px,6vw,80px);font-weight:900;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:24px}
+    .cta-section h2 em{font-style:normal;color:var(--red)}
+    .cta-section p{font-size:16px;color:rgba(240,240,240,.5);max-width:500px;margin:0 auto 40px;line-height:1.75}
+    .btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--fh);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:15px 32px;transition:background .2s,color .2s,border-color .2s;position:relative;overflow:hidden}
+    .btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.08);transform:translateX(-110%) skewX(-15deg);transition:transform .4s ease}
+    .btn:hover::before{transform:translateX(110%) skewX(-15deg)}
+    .btn-solid{background:var(--red);color:var(--white);border:2px solid var(--red)}
+    .btn-solid:hover{background:var(--red-dark);border-color:var(--red-dark)}
+    .btn-outline{background:transparent;color:var(--white);border:2px solid rgba(240,240,240,.3)}
+    .btn-outline:hover{border-color:var(--white)}
+
+    @media(max-width:960px){
+      .page-hero{padding:120px 24px 72px}
+      .section{padding:72px 24px}
+      .timeline{padding-left:32px;}
+      .timeline-dot{left:-32px; width:20px; height:20px;}
+      .founder-grid{grid-template-columns:1fr;}
+      .contact-grid{grid-template-columns:1fr; gap:48px;}
+      .contact-form{padding:32px 24px;}
+      footer{padding:48px 24px 32px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="kweni-loader" style="position:fixed;inset:0;z-index:99999;background:#050505;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;transition:opacity .8s ease,visibility .8s ease">
+  <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0px,transparent 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px);animation:scanroll 10s linear infinite"></div>
+  <svg style="width:120px;height:120px;margin-bottom:32px" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="lp" d="M100 18 C72 18 50 38 44 66 C40 82 42 100 46 116 C50 134 54 148 56 160 C58 172 58 186 60 198 C62 210 70 224 80 232 C86 236 92 238 100 238 C108 238 114 236 120 232 C130 224 138 210 140 198 C142 186 142 172 144 160 C146 148 150 134 154 116 C158 100 160 82 156 66 C150 38 128 18 100 18Z" stroke="#E8121A" stroke-width="1.5" fill="none" stroke-dasharray="600" stroke-dashoffset="600" style="transition:stroke-dashoffset 2s ease"/>
+    <ellipse cx="78" cy="110" rx="14" ry="8" stroke="#E8121A" stroke-width="1.2" stroke-dasharray="70" stroke-dashoffset="70" style="transition:stroke-dashoffset 1s ease .8s"/>
+    <ellipse cx="122" cy="110" rx="14" ry="8" stroke="#E8121A" stroke-width="1.2" stroke-dasharray="70" stroke-dashoffset="70" style="transition:stroke-dashoffset 1s ease .8s"/>
+  </svg>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:rgba(232,18,26,.8);margin-bottom:24px" id="ld-label">ROADMAP</div>
+  <div style="width:200px;height:2px;background:rgba(255,255,255,.08);position:relative;overflow:hidden">
+    <div id="ld-bar" style="position:absolute;top:0;left:0;height:100%;background:var(--red);width:0;transition:width .3s ease;box-shadow:0 0 12px rgba(232,18,26,.6)"></div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;letter-spacing:.2em;color:rgba(240,240,240,.2)" id="ld-pct">0%</div>
+  <style>
+    @keyframes scanroll{from{background-position:0 0}to{background-position:0 100px}}
+    #kweni-loader.done{opacity:0;visibility:hidden;pointer-events:none}
+  </style>
+</div>
+<script>
+(function(){
+  const bar=document.getElementById('ld-bar');
+  const pct=document.getElementById('ld-pct');
+  const lp=document.getElementById('lp');
+  const loader=document.getElementById('kweni-loader');
+  setTimeout(()=>{lp.style.strokeDashoffset='0'},100);
+  const steps=[{t:300,v:20},{t:700,v:45},{t:1100,v:70},{t:1500,v:90},{t:1900,v:100}];
+  steps.forEach(s=>setTimeout(()=>{bar.style.width=s.v+'%';pct.textContent=s.v+'%'},s.t));
+  setTimeout(()=>loader.classList.add('done'),2400);
+})();
+</script>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Kweni Studio"/></a>
+  <ul class="nav-links">
+    <li><a href="vision.html"><i class="fa-solid fa-eye" style="margin-right:5px;font-size:10px;opacity:.5"></i>Vision</a></li>
+    <li><a href="projets.html"><i class="fa-solid fa-gamepad" style="margin-right:5px;font-size:10px;opacity:.5"></i>Projets</a></li>
+    <li><a href="roadmap.html" class="active"><i class="fa-solid fa-route" style="margin-right:5px;font-size:10px;opacity:.5"></i>Roadmap</a></li>
+    <li><a href="fondateur.html" class=""><i class="fa-solid fa-user" style="margin-right:5px;font-size:10px;opacity:.5"></i>Fondateur</a></li>
+    <li><a href="contact.html" class=""><i class="fa-solid fa-envelope" style="margin-right:5px;font-size:10px;opacity:.5"></i>Contact</a></li>
+  </ul>
+  <a href="contact.html" class="nav-btn">Rejoindre l'aventure</a>
+  <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile" id="mobileMenu">
+  <a href="vision.html">Vision</a>
+  <a href="projets.html">Projets</a>
+  <a href="roadmap.html">Roadmap</a>
+  <a href="fondateur.html">Fondateur</a>
+  <a href="contact.html">Rejoindre l'aventure →</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="orb" style="width:400px;height:400px;background:var(--red);top:10%;left:-10%;z-index:0"></div>
+  <div class="page-hero-grid"></div>
+  <div class="page-hero-bg" style="background:linear-gradient(to right,rgba(232,18,26,.04),transparent);left:0;right:auto"></div>
+  <div style="position:relative;z-index:2">
+    <div class="breadcrumb r"><a href="index.html">Kweni Studio</a><span>/</span>Roadmap</div>
+    <h1 class="page-title r" data-d="1">Plan de<br/><span class="red">Bataille.</span></h1>
+    <p class="page-subtitle r" data-d="2">Découvrez les grandes étapes de notre évolution. Du lancement de nos premiers titres à l'établissement de notre écosystème global.</p>
+  </div>
+</section>
+
+
+<!-- TIMELINE SECTION -->
+<section class="section section-alt" id="roadmap" style="position:relative;overflow:hidden">
+  <div class="orb" style="width:400px;height:400px;background:var(--red);bottom:-10%;left:-10%;--oa:.05;--odur:11s;--ox:30px;--oy:-20px;z-index:0"></div>
+  <div class="geo-shape" style="width:80px;height:80px;top:10%;right:5%;--gd:30s;z-index:0;border-color:rgba(232,18,26,.1)"></div>
+  <div class="tag r">Roadmap 2026</div>
+  <h2 class="sh r" data-d="1">Le studio<br/><span class="red">prend forme.</span></h2>
+  
+  <div class="timeline r" data-d="2">
+    
+    <div class="timeline-item r">
+      <div class="timeline-dot" style="background:var(--red)"></div>
+      <div class="timeline-date"><i class="fa-solid fa-flag-checkered" style="margin-right:6px;opacity:.6"></i>Juin 2026 — Accompli</div>
+      <h3 class="timeline-title">Fondation du Studio</h3>
+      <p class="timeline-desc">Création officielle de Kweni Studio. Lancement des 4 projets principaux en ligne : BuzzKing, AEM, AECM et Pensée IA. Définition de l'identité visuelle et de la vision globale du studio.</p>
+      <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+         <span class="timeline-status status-done">BuzzKing ✓</span>
+         <span class="timeline-status status-done">AEM ✓</span>
+         <span class="timeline-status status-done">AECM ✓</span>
+         <span class="timeline-status status-done">Pensée IA ✓</span>
+      </div>
+    </div>
+
+    <div class="timeline-item r">
+      <div class="timeline-dot" style="border-color:var(--red);"></div>
+      <div class="timeline-date"><i class="fa-solid fa-spinner fa-spin" style="margin-right:6px;opacity:.6"></i>Juillet — Septembre 2026 — En cours</div>
+      <h3 class="timeline-title">Consolidation & Mobile</h3>
+      <p class="timeline-desc">Publication de BuzzKing (Rapivoire) sur Google Play Store. Refonte mobile complète des interfaces de jeu. Ajout de nouvelles fonctionnalités : tournois, système de saisons, profils joueurs.</p>
+      <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+         <span class="timeline-status status-active">Google Play</span>
+         <span class="timeline-status status-active">Mobile UI</span>
+         <span class="timeline-status" style="border-color:var(--border); color:rgba(240,240,240,.5)">Tournois</span>
+         <span class="timeline-status" style="border-color:var(--border); color:rgba(240,240,240,.5)">Saisons</span>
+      </div>
+    </div>
+
+    <div class="timeline-item r">
+      <div class="timeline-dot" style="border-color:var(--border);"></div>
+      <div class="timeline-date" style="color:rgba(240,240,240,.5)"><i class="fa-regular fa-clock" style="margin-right:6px;opacity:.6"></i>Octobre — Décembre 2026 — À venir</div>
+      <h3 class="timeline-title">Expansion & Communauté</h3>
+      <p class="timeline-desc">Lancement des versions communautaires avec classements globaux et multijoueur. Extension du système IA de Pensée IA. Partenariats avec des créateurs et studios africains.</p>
+      <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+         <span class="timeline-status" style="border-color:var(--border); color:rgba(240,240,240,.5)">Multijoueur</span>
+         <span class="timeline-status" style="border-color:var(--border); color:rgba(240,240,240,.5)">Classements</span>
+         <span class="timeline-status" style="border-color:var(--border); color:rgba(240,240,240,.5)">Partenariats</span>
+      </div>
+    </div>
+
+    <div class="timeline-item r">
+      <div class="timeline-dot" style="border-color:var(--border);"></div>
+      <div class="timeline-date" style="color:rgba(240,240,240,.5)"><i class="fa-solid fa-rocket" style="margin-right:6px;opacity:.6"></i>2027 — Vision long terme</div>
+      <h3 class="timeline-title">Kweni Studio v2.0</h3>
+      <p class="timeline-desc">Développement de nouveaux univers. Studio physique à Abidjan. Création d'un programme pour les développeurs et créatifs africains. Impact culturel et technologique continental.</p>
+      <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+         <span class="timeline-status" style="border-color:var(--border); color:rgba(240,240,240,.5)">Nouveaux jeux</span>
+         <span class="timeline-status" style="border-color:var(--border); color:rgba(240,240,240,.5)">Studio physique</span>
+         <span class="timeline-status" style="border-color:var(--border); color:rgba(240,240,240,.5)">Programme créateurs</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="r" data-d="1">
+    <h2>Prêt à <em>créer</em> avec nous ?</h2>
+    <p>Que vous soyez un joueur passionné, un développeur talentueux ou un partenaire potentiel, Kweni Studio est ouvert aux collaborations audacieuses.</p>
+    <div class="btns">
+      <a href="contact.html" class="btn btn-solid">Nous contacter <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="projets.html" class="btn btn-outline">Découvrir les jeux</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="vision.html">Vision</a>
+    <a href="projets.html">Projets</a>
+    <a href="roadmap.html">Roadmap</a>
+    <a href="fondateur.html">Fondateur</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="footer-bot">
+    <span>© 2025–2026 Kweni Studio — Tous droits réservés</span>
+    <span style="color:rgba(240,240,240,.2);font-size:11px">Fondé · développé · designé par Yao Baba Ange Emmanuel depuis Abidjan</span>
+    <span>Made in Côte d'Ivoire 🇨🇮</span>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+  (function ar(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar)})();
+  // Nav
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('stuck',scrollY>50),{passive:true});
+  // Hamburger
+  const hb=document.getElementById('hamburger'),mm=document.getElementById('mobileMenu');
+  hb.addEventListener('click',()=>{hb.classList.toggle('open');mm.classList.toggle('open')});
+  // Reveal
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target)}})},{threshold:.1});
+  document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
