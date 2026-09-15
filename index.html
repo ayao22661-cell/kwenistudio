@@ -35,6 +35,10 @@
 <main id="main">
 <section class="hero" aria-labelledby="hero-title">
 <canvas id="stones" aria-hidden="true"></canvas>
+<video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+  <!-- Remplace ce src par l'URL de ta vidéo une fois générée -->
+  <!-- <source src="hero-loop.mp4" type="video/mp4"> -->
+</video>
 <div class="hero-fallback" aria-hidden="true"><svg viewBox="190 120 420 420" aria-hidden="true">
 <defs><linearGradient id="pefsky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060814"/><stop offset=".55" stop-color="#1c0d12"/><stop offset="1" stop-color="#3a1206"/></linearGradient>
 <radialGradient id="pefglow3" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#D4A017" stop-opacity=".95"/><stop offset=".3" stop-color="#D4A017" stop-opacity=".35"/><stop offset="1" stop-color="#D4A017" stop-opacity="0"/></radialGradient></defs>
@@ -58,8 +62,8 @@
 <div class="after">
 <p class="lede">Kweni Studio crée des jeux vidéo et des outils d'IA depuis Abidjan. Des histoires de chez nous, jouables partout.</p>
 <div class="actions"><a class="btn btn-play" href="#salles">Entrer dans le musée</a><a class="btn btn-ghost" href="univers.html">Lire l'univers</a></div>
-<ul class="elements" aria-label="Les cinq pierres de Kankou Moussa"><li><i style="--c:#B5652B"></i>Terre</li><li><i style="--c:#2E7BD6"></i>Eau</li><li><i style="--c:#E8121A"></i>Feu</li><li><i style="--c:#D4A017"></i>Équilibre</li><li><i style="--c:#CFE3F0"></i>Air</li></ul>
 </div>
+<ul class="elements" aria-label="Les cinq pierres de Kankou Moussa"><li><i style="--c:#B5652B"></i>Terre</li><li><i style="--c:#2E7BD6"></i>Eau</li><li><i style="--c:#E8121A"></i>Feu</li><li><i style="--c:#D4A017"></i>Équilibre</li><li><i style="--c:#CFE3F0"></i>Air</li></ul>
 </div>
 <button class="sound" aria-pressed="false"><span class="bars" aria-hidden="true"><b></b><b></b><b></b></span><span class="label">Activer le son</span></button>
 </section>
@@ -78,24 +82,7 @@
 <p class="pitch">Marcory, 1996. Tarine Keïta, 13 ans, reçoit une pierre qui respire. Forme ton équipe de Gardiens du Sud et affronte l'Empire du Nord pour les cinq pierres de Kankou Moussa.</p>
 <div class="actions"><a class="btn btn-play" href="https://pierre-et-force.vercel.app/" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Jouer<span class="sr"> (nouvel onglet)</span></a><a class="btn btn-ghost" href="jeux/pierre-et-force.html">Découvrir</a></div>
 </div>
-<a class="arch" href="jeux/pierre-et-force.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-<defs><linearGradient id="pefsky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060814"/><stop offset=".55" stop-color="#1c0d12"/><stop offset="1" stop-color="#3a1206"/></linearGradient>
-<radialGradient id="pefglow1" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#D4A017" stop-opacity=".95"/><stop offset=".3" stop-color="#D4A017" stop-opacity=".35"/><stop offset="1" stop-color="#D4A017" stop-opacity="0"/></radialGradient></defs>
-<rect width="800" height="1000" fill="url(#pefsky1)"/>
-<g fill="#EFE8DC" opacity=".55"><circle cx="120" cy="90" r="1.4"/><circle cx="640" cy="140" r="1.2"/><circle cx="520" cy="60" r="1"/><circle cx="260" cy="200" r="1.1"/><circle cx="720" cy="300" r="1.3"/><circle cx="80" cy="330" r="1"/></g>
-<g transform="translate(400 330)">
-<circle r="190" fill="none" stroke="#EFE8DC" stroke-opacity=".18"/>
-<g><circle cx="0" cy="-190" r="60" fill="url(#pefglow1)"/><rect x="-14" y="-204" width="28" height="28" transform="rotate(45 0 -190)" fill="#B5652B"/></g>
-<g><circle cx="181" cy="-59" r="60" fill="url(#pefglow1)"/><rect x="167" y="-73" width="28" height="28" transform="rotate(45 181 -59)" fill="#2E7BD6"/></g>
-<g><circle cx="112" cy="154" r="60" fill="url(#pefglow1)"/><rect x="98" y="140" width="28" height="28" transform="rotate(45 112 154)" fill="#E8121A"/></g>
-<g><circle cx="-112" cy="154" r="60" fill="url(#pefglow1)"/><rect x="-126" y="140" width="28" height="28" transform="rotate(45 -112 154)" fill="#D4A017"/></g>
-<g><circle cx="-181" cy="-59" r="60" fill="url(#pefglow1)"/><rect x="-195" y="-73" width="28" height="28" transform="rotate(45 -181 -59)" fill="#CFE3F0"/></g>
-</g>
-<path d="M0 760 L90 760 L90 690 L110 670 L110 640 L130 640 L130 670 L150 690 L150 760 L260 760 L260 610 L280 590 L280 540 L300 520 L320 540 L320 590 L340 610 L340 760 L460 760 L460 560 L480 540 L480 480 L500 450 L520 480 L520 540 L540 560 L540 760 L640 760 L640 660 L660 640 L680 660 L680 760 L800 760 L800 1000 L0 1000Z" fill="#0a0506"/>
-<g stroke="#0a0506" stroke-width="6"><path d="M270 575h60M270 625h60M450 520h100M450 600h100M450 680h100M80 720h80"/></g>
-<rect x="0" y="820" width="800" height="180" fill="#050506"/>
-<g transform="translate(400 820)"><path d="M-14 0 L-10 -70 L-22 -130 L0 -160 L22 -130 L10 -70 L14 0Z" fill="#050506"/><circle cy="-176" r="18" fill="#050506"/><circle cx="-30" cy="-118" r="40" fill="url(#pefglow1)"/></g>
-</svg><img src="PIERRE-ET-FORCE.jpg" alt="" loading="lazy" data-fallback width="1672" height="941"></span></a>
+<a class="arch" href="jeux/pierre-et-force.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><img src="PIERRE-ET-FORCE.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
 </article>
 <article class="hall" style="--accent:#F28C28" aria-labelledby="h-aem-coupe-du-monde">
 <span class="hall-ghost" aria-hidden="true">02</span>
@@ -106,27 +93,7 @@
 <p class="pitch">48 nations, un seul trophée. Deviens sélectionneur, choisis ton dispositif, fais la causerie et mène ta nation jusqu'au bout, tirs au but compris.</p>
 <div class="actions"><a class="btn btn-play" href="https://aemworldcup.vercel.app/" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Jouer<span class="sr"> (nouvel onglet)</span></a><a class="btn btn-ghost" href="jeux/aem-coupe-du-monde.html">Découvrir</a></div>
 </div>
-<a class="arch" href="jeux/aem-coupe-du-monde.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><svg viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-<defs><linearGradient id="wcsky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050a14"/><stop offset=".6" stop-color="#0c2233"/><stop offset="1" stop-color="#0a1a10"/></linearGradient>
-<radialGradient id="wcl2" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
-<linearGradient id="wcgold2" x1="0" x2="1"><stop offset="0" stop-color="#8a6410"/><stop offset=".5" stop-color="#F2C94C"/><stop offset="1" stop-color="#8a6410"/></linearGradient>
-<linearGradient id="wcpitch2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f5a2c"/><stop offset="1" stop-color="#1FA64A"/></linearGradient></defs>
-<rect width="800" height="1000" fill="url(#wcsky2)"/>
-<g><circle cx="110" cy="150" r="90" fill="url(#wcl2)" opacity=".5"/><circle cx="690" cy="150" r="90" fill="url(#wcl2)" opacity=".5"/>
-<path d="M80 130h60v36h-60zM660 130h60v36h-60z" fill="#EFE8DC"/></g>
-<path d="M0 470 Q400 330 800 470 L800 600 L0 600Z" fill="#0b0f16"/>
-<g fill="#F28C28" opacity=".7"><circle cx="120" cy="470" r="3"/><circle cx="180" cy="452" r="3"/><circle cx="260" cy="430" r="3"/><circle cx="560" cy="430" r="3"/><circle cx="640" cy="450" r="3"/></g>
-<g fill="#1FA64A" opacity=".7"><circle cx="150" cy="462" r="3"/><circle cx="300" cy="420" r="3"/><circle cx="600" cy="440" r="3"/><circle cx="700" cy="470" r="3"/></g>
-<g fill="#EFE8DC" opacity=".6"><circle cx="220" cy="442" r="3"/><circle cx="520" cy="424" r="3"/><circle cx="670" cy="460" r="3"/></g>
-<path d="M-100 1000 L260 580 L540 580 L900 1000Z" fill="url(#wcpitch2)"/>
-<g stroke="#EFE8DC" stroke-opacity=".5" stroke-width="3" fill="none"><path d="M40 1000 L300 580M760 1000 L500 580M170 770 H630"/><ellipse cx="400" cy="770" rx="110" ry="30"/></g>
-<g transform="translate(400 560)">
-<ellipse cx="0" cy="170" rx="70" ry="14" fill="#000" opacity=".5"/>
-<path d="M-46 160 h92 l-10 -34 h-72z" fill="#3b2a08"/>
-<path d="M-22 126 C-26 90 -10 70 -14 40 C-60 20 -70 -60 -40 -110 C-20 -140 20 -140 40 -110 C70 -60 60 20 14 40 C10 70 26 90 22 126Z" fill="url(#wcgold2)"/>
-<circle cx="0" cy="-80" r="44" fill="none" stroke="#fff3c4" stroke-opacity=".5" stroke-width="3"/>
-</g>
-</svg><img src="AEM-WORLDCUP.jpg" alt="" loading="lazy" data-fallback width="1672" height="941"></span></a>
+<a class="arch" href="jeux/aem-coupe-du-monde.html" tabindex="-1" aria-hidden="true"><span class="arch-in"><img src="AEM-WORLDCUP.jpg" alt="" loading="lazy" width="1672" height="941"></span></a>
 </article>
 <article class="hall" style="--accent:#2BB673" aria-labelledby="h-africa-elite-manager">
 <span class="hall-ghost" aria-hidden="true">03</span>
