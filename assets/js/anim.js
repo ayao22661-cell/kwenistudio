@@ -14,13 +14,19 @@
   window.addEventListener('resize', function () { vh = window.innerHeight; });
 
   /* ---------- 1. Rideau d'ouverture ---------- */
-  var curtain = document.createElement('div');
-  curtain.className = 'k-curtain';
-  curtain.setAttribute('aria-hidden', 'true');
-  curtain.innerHTML = '<i></i><i></i><i></i><b>KWENI</b>';
-  document.body.appendChild(curtain);
-  requestAnimationFrame(function () { requestAnimationFrame(function () { curtain.classList.add('go'); }); });
-  setTimeout(function () { curtain.remove(); }, 1600);
+  // Raccord « Kubrick » : si le navigateur sait enchaîner les pages, l'image cliquée
+  // devient le visuel de la page suivante. Sinon, rideau découpé façon Saul Bass.
+  var vt = 'PageRevealEvent' in window;
+  if (!vt) {
+    var curtain = document.createElement('div');
+    curtain.className = 'k-curtain';
+    curtain.setAttribute('aria-hidden', 'true');
+    curtain.innerHTML = '<i></i><i></i><i></i><i></i>';
+    document.body.appendChild(curtain);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { curtain.classList.add('go'); }); });
+    setTimeout(function () { curtain.remove(); }, 1300);
+  }
+  function clearNames() { $('[data-vt]').forEach(function (n) { n.style.viewTransitionName = ''; n.removeAttribute('data-vt'); }); }
 
   // Rideau aussi en quittant la page (liens internes)
   document.addEventListener('click', function (e) {
@@ -28,16 +34,22 @@
     if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || a.target === '_blank') return;
     var href = a.getAttribute('href') || '';
     if (!href || href[0] === '#' || /^(mailto|tel|https?:)/.test(href) || a.hasAttribute('download')) return;
+    if (vt) {
+      clearNames();
+      var media = a.matches('.arch') ? a.querySelector('.arch-in') : a.querySelector('.game-media');
+      if (media && /jeux\//.test(a.getAttribute('href'))) { media.style.viewTransitionName = 'k-hero'; media.setAttribute('data-vt', ''); }
+      return;
+    }
     e.preventDefault();
     var out = document.createElement('div');
     out.className = 'k-curtain out';
     out.setAttribute('aria-hidden', 'true');
-    out.innerHTML = '<i></i><i></i><i></i>';
+    out.innerHTML = '<i></i><i></i><i></i><i></i>';
     document.body.appendChild(out);
     requestAnimationFrame(function () { out.classList.add('go'); });
     setTimeout(function () { window.location.href = a.href; }, 520);
   });
-  window.addEventListener('pageshow', function (e) { if (e.persisted) $('.k-curtain.out').forEach(function (n) { n.remove(); }); });
+  window.addEventListener('pageshow', function (e) { clearNames(); if (e.persisted) $('.k-curtain.out').forEach(function (n) { n.remove(); }); });
 
   /* ---------- 2. Barre de progression ---------- */
   var bar = document.createElement('div');
@@ -140,18 +152,18 @@
 
   // Salle active = celle au centre de l'écran : teinte + compteur
   var active = -1;
+  var accents = halls.map(function (h) { return getComputedStyle(h).getPropertyValue('--accent').trim() || '#E8121A'; });
   function setActive(i) {
     if (i === active || i < 0) return;
     active = i;
     var acc = getComputedStyle(halls[i]).getPropertyValue('--accent').trim();
-    if (tint && acc) tint.style.backgroundColor = acc;
     if (countB) { countB.textContent = i + 1; countB.classList.remove('k-flip'); void countB.offsetWidth; countB.classList.add('k-flip'); }
     halls.forEach(function (h, j) { h.classList.toggle('k-active', j === i); });
   }
 
   // Particules (braises) dans le musée
   var hallsSec = document.querySelector('.halls');
-  if (hallsSec) {
+  if (false) {
     var cv = document.createElement('canvas');
     cv.className = 'k-embers'; cv.setAttribute('aria-hidden', 'true');
     hallsSec.insertBefore(cv, hallsSec.firstChild);
@@ -212,6 +224,16 @@
       h.style.setProperty('--p', c.toFixed(3));
     });
     setActive(best);
+    if (tint && halls.length) {
+      var centers = halls.map(function (h) { var r = h.getBoundingClientRect(); return r.top + r.height / 2 - vh / 2; });
+      var k = 0; while (k < centers.length - 1 && centers[k + 1] < 0) k++;
+      var a0 = centers[k], a1 = centers[Math.min(k + 1, centers.length - 1)];
+      var t = a1 === a0 ? 0 : clamp(-a0 / (a1 - a0), 0, 1);
+      t = t * t * (3 - 2 * t);
+      tint.style.setProperty('--ca', accents[k]);
+      tint.style.setProperty('--cb', accents[Math.min(k + 1, accents.length - 1)]);
+      tint.style.setProperty('--t', t.toFixed(3));
+    }
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);

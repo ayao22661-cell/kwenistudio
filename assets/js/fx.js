@@ -113,6 +113,8 @@
       fill.style.background = getComputedStyle(cur).getPropertyValue('--accent');
       var sw = cur.querySelector('.k-sweep');
       sw.classList.remove('go'); void sw.offsetWidth; sw.classList.add('go');
+      var ttl = cur.querySelector('.hall-title');
+      if (ttl) { ttl.classList.remove('k-ink'); void ttl.offsetWidth; ttl.classList.add('k-ink'); }
       $('.hall-title .k-w > span', cur).forEach(function (s, k) {
         if (s.closest('small')) return;
         setTimeout(function () { scramble(s, 650); }, k * 90);
@@ -120,6 +122,42 @@
       if (window.kweniAudio) window.kweniAudio.tone(130 + idx * 30);
     }).observe(hallsSec, { subtree: true, attributes: true, attributeFilter: ['class'] });
   }
+
+
+  /* ---------- Cartels de musée (interface dans le décor, façon Dead Space) ---------- */
+  $('.hall').forEach(function (h, i) {
+    var arch = h.querySelector('.arch'), t = h.querySelector('.hall-title'), g = h.querySelector('.hall-genre');
+    if (!arch || !t) return;
+    var small = t.querySelector('small');
+    var name = t.textContent.replace(small ? small.textContent : '', '').replace(/\s+/g, ' ').trim();
+    var c = document.createElement('span');
+    c.className = 'k-cartel'; c.setAttribute('aria-hidden', 'true');
+    c.innerHTML = '<em>Salle ' + (i + 1) + '</em><b></b><span></span>';
+    c.querySelector('b').textContent = name;
+    c.querySelector('span').textContent = g ? g.textContent : '';
+    arch.appendChild(c);
+  });
+
+  /* ---------- Plans multiples (caméra multiplane) dans les visuels dessinés ---------- */
+  var planes = [];
+  $('.arch-in svg, .hero-fallback svg, .gp-hero .bg svg').forEach(function (svg) {
+    var gs = $(':scope > g, :scope > circle, :scope > path', svg);
+    gs.forEach(function (g, i) { planes.push({ svg: svg, el: g, depth: (i + 1) / gs.length }); });
+  });
+  if (planes.length) (function loop() {
+    var vh = window.innerHeight, cache = new Map();
+    planes.forEach(function (pl) {
+      var c = cache.get(pl.svg);
+      if (c === undefined) {
+        var r = pl.svg.getBoundingClientRect();
+        c = (r.bottom < 0 || r.top > vh) ? null : clamp((r.top + r.height / 2 - vh / 2) / vh, -1, 1);
+        cache.set(pl.svg, c);
+      }
+      if (c === null) return;
+      pl.el.style.translate = '0 ' + (c * pl.depth * 28).toFixed(1) + 'px';
+    });
+    requestAnimationFrame(loop);
+  })();
 
   /* ---------- Vitesse de défilement : étirement élastique ---------- */
   var lastY = window.scrollY, sv = 0;
@@ -199,18 +237,9 @@
     }
     if (P.length) requestAnimationFrame(draw); else { animating = false; cx.clearRect(0, 0, W, H); }
   }
-  var lastSpark = 0, lx = 0, ly = 0;
-  if (fine) window.addEventListener('mousemove', function (e) {
-    var now = performance.now(), d = Math.abs(e.clientX - lx) + Math.abs(e.clientY - ly);
-    if (now - lastSpark > 28 && d > 14) {
-      lastSpark = now; lx = e.clientX; ly = e.clientY;
-      P.push({ x: e.clientX, y: e.clientY, vx: (Math.random() - .5), vy: (Math.random() - .5), life: .7, dec: .025, sz: 2 + Math.random() * 3, rot: .785, vr: 0, c: accentAt(e.clientX, e.clientY), g: -.02 });
-      if (!animating) { animating = true; requestAnimationFrame(draw); }
-    }
-  }, { passive: true });
   document.addEventListener('pointerdown', function (e) {
-    var hot = e.target.closest('.btn, .arch, .game, .elements li');
-    spawn(e.clientX, e.clientY, hot ? 34 : 10, hot ? 9 : 5, hot ? null : accentAt(e.clientX, e.clientY));
+    var hot = e.target.closest('.btn-play');
+    if (hot) spawn(e.clientX, e.clientY, 16, 6, accentAt(e.clientX, e.clientY));
   });
 
   /* ---------- Étiquette dans l'anneau du curseur ---------- */
@@ -223,25 +252,19 @@
     });
   }
 
-  /* ---------- Inactivité : le musée respire ---------- */
-  var idleT;
-  function wake() { document.body.classList.remove('k-idle'); clearTimeout(idleT); idleT = setTimeout(function () { document.body.classList.add('k-idle'); }, 7000); }
-  ['mousemove', 'scroll', 'keydown', 'touchstart'].forEach(function (ev) { window.addEventListener(ev, wake, { passive: true }); });
-  wake();
-
   /* ---------- Réveil des cinq pierres : automatique, léger, une fois par visite ---------- */
   function awaken() {
     if (document.querySelector('.k-toast')) return;
     var toast = document.createElement('div'); toast.className = 'k-toast'; toast.setAttribute('role', 'status');
     toast.textContent = 'Les cinq pierres de Kankou Moussa sont réveillées.';
     document.body.appendChild(toast); setTimeout(function () { toast.remove(); }, 3200);
-    document.body.classList.add('k-awake'); setTimeout(function () { document.body.classList.remove('k-awake'); }, 1600);
-    var per = fine ? 3 : 2, n = 0, iv = setInterval(function () {
+        var per = fine ? 3 : 2, n = 0, iv = setInterval(function () {
       for (var k = 0; k < per; k++) P.push({ x: Math.random() * W, y: -20, vx: (Math.random() - .5), vy: 2 + Math.random() * 2, life: 1, dec: .008, sz: 7 + Math.random() * 7, rot: .785, vr: (Math.random() - .5) * .06, c: PALETTE[(Math.random() * 5) | 0], g: .04 });
       if (!animating) { animating = true; requestAnimationFrame(draw); }
       if (++n > 14) clearInterval(iv);
     }, 90);
   }
+  window.addEventListener('scroll', function () { if (window.scrollY > 80) P.forEach(function (p) { p.dec = Math.max(p.dec, .06); }); }, { passive: true });
   var stones = document.querySelector('.hero .elements');
   if (stones) {
     var seen = false;
