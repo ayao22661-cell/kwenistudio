@@ -97,7 +97,7 @@
   heads.forEach(function (h) { io.observe(h); });
 
   // Médias des cartes : dévoilement en volet
-  $('.game-media, .cover, .thumb').forEach(function (m) { m.classList.add('k-wipe'); io.observe(m); });
+  $('.game-media, .cover, .thumb, .plate, .still, .news-img').forEach(function (m) { m.classList.add('k-wipe'); io.observe(m); });
   // Frise : trait qui se dessine
   $('.timeline').forEach(function (t) { t.classList.add('k-line'); io.observe(t); });
   $('.timeline li').forEach(function (li) { li.classList.add('k-pop'); io.observe(li); });

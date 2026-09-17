@@ -1,5 +1,7 @@
 /* Kweni Studio — Les cinq pierres (Three.js r128)
-   Formation, respiration, survol, clic (onde de choc) et dispersion au défilement. */
+   Formation, respiration, survol, clic (onde de choc) et dispersion au défilement.
+   v11 : une main de pierre tient les cinq pierres par des fils de lumière
+   (un doigt = une pierre), respire, tire ses fils à tour de rôle et relâche au défilement. */
 (function () {
   var root = document.documentElement;
   var canvas = document.getElementById('stones');
@@ -105,6 +107,53 @@
   var dust = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: lowPower ? 0.05 : 0.035, map: haloTex, vertexColors: true, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false }));
   ring.add(dust);
 
+  // ---------- La main : un doigt par pierre ----------
+  var handMat = new THREE.MeshStandardMaterial({ color: 0x2b1d17, emissive: 0x120806, emissiveIntensity: 1, roughness: 0.5, metalness: 0.35, flatShading: true });
+  var hand = new THREE.Group(); world.add(hand);
+  var HAND_Y = -3.75, HAND_S = 0.8;
+  var palm = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 1), handMat);
+  palm.scale.set(0.62, 0.72, 0.24); hand.add(palm);
+  var arm = new THREE.Mesh(new THREE.CylinderGeometry(0.33, 0.5, 3.4, 7), handMat);
+  arm.position.y = -2.2; hand.add(arm);
+  var jointGeo = new THREE.IcosahedronGeometry(1, 0);
+  // [x, y, inclinaison, longueurs des phalanges, rayon, courbure au repos] — pouce → Terre … auriculaire → Air
+  var FINGERS = [
+    [-0.5, -0.12, 0.72, [0.44, 0.34, 0.28], 0.16, 0.3],
+    [-0.37, 0.55, 0.16, [0.5, 0.34, 0.26], 0.135, 0.18],
+    [-0.12, 0.66, 0.03, [0.56, 0.37, 0.28], 0.14, 0.14],
+    [0.14, 0.62, -0.1, [0.52, 0.34, 0.26], 0.13, 0.2],
+    [0.38, 0.47, -0.26, [0.4, 0.27, 0.22], 0.11, 0.28]
+  ];
+  var fingers = FINGERS.map(function (d, i) {
+    var base = new THREE.Group(); base.position.set(d[0], d[1], 0.04); base.rotation.z = d[2];
+    if (i === 0) base.rotation.y = -0.3;
+    hand.add(base);
+    var parent = base, joints = [];
+    d[3].forEach(function (len, k) {
+      var r = d[4] * (1 - k * 0.12);
+      var piv = new THREE.Group(); parent.add(piv); joints.push(piv);
+      var seg = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.84, r, len, 6), handMat);
+      seg.position.y = len / 2; piv.add(seg);
+      var jn = new THREE.Mesh(jointGeo, handMat); jn.scale.setScalar(r); piv.add(jn);
+      var next = new THREE.Group(); next.position.y = len; piv.add(next);
+      parent = next;
+    });
+    var tip = new THREE.Group(); parent.add(tip);
+    var glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTex, color: ELEMENTS[i].color, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 }));
+    glow.scale.setScalar(0.45); tip.add(glow);
+    // Fil de lumière
+    var pts = new Float32Array(17 * 3);
+    var lg = new THREE.BufferGeometry(); lg.setAttribute('position', new THREE.BufferAttribute(pts, 3));
+    var line = new THREE.Line(lg, new THREE.LineBasicMaterial({ color: ELEMENTS[i].color, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
+    line.frustumCulled = false; world.add(line);
+    // Impulsion qui voyage du doigt vers la pierre
+    var spark = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTex, color: ELEMENTS[i].color, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 }));
+    spark.scale.setScalar(0.5); world.add(spark);
+    return { joints: joints, rest: d[5], tip: tip, glow: glow, line: line, spark: spark, pull: 0, pulse: 1, armed: true };
+  });
+  var tipW = new THREE.Vector3(), stoneW = new THREE.Vector3(), ctrl = new THREE.Vector3(), handTint = new THREE.Color(), noTint = new THREE.Color(0x120806);
+  function pluck(i) { var f = fingers[i]; if (f.pulse >= 1) f.pulse = 0; }
+
   var basePos = new THREE.Vector3(), baseScale = 1;
   function layout() {
     var w = canvas.clientWidth, h = canvas.clientHeight;
@@ -135,12 +184,21 @@
     w.mesh.position.copy(stones[i].group.position);
     w.mesh.material.color.set(ELEMENTS[i].color);
     if (window.kweniAudio) window.kweniAudio.tone(ELEMENTS[i].note);
+    pluck(i);
   }
   canvas.addEventListener('click', function () { if (hovered >= 0) burst(hovered); });
   // Clavier : touches 1 à 5
   window.addEventListener('keydown', function (e) {
     if (window.scrollY > window.innerHeight * 0.5 || /input|textarea|select/i.test(e.target.tagName)) return;
     var n = parseInt(e.key, 10); if (n >= 1 && n <= 5) burst(n - 1);
+  });
+
+  // Légende du hero : survol = le doigt se lève, clic = la pierre répond
+  var legendHover = -1;
+  Array.prototype.forEach.call(document.querySelectorAll('.hero .elements li'), function (li, i) {
+    li.addEventListener('pointerenter', function () { legendHover = i; });
+    li.addEventListener('pointerleave', function () { legendHover = -1; });
+    li.addEventListener('click', function () { burst(i); });
   });
 
   var DURATION = 3.2, t0 = null, awake = false, visible = true, running = false, last = 0;
@@ -189,8 +247,19 @@
     }
 
     var sp = Math.max(0, (prog - 0.45) / 0.55);
+    var active = hovered >= 0 ? hovered : legendHover;
+    var release = Math.min(1, sc * 2.5);
+    // Doigts : vague lente, un doigt après l'autre
+    fingers.forEach(function (f, i) {
+      var w = reduce ? 0 : Math.max(0, Math.sin(el * 1.2 - i * 1.25));
+      w = w * w * w;
+      if (w > 0.97 && f.armed && sp > 0.9 && release < 0.2) { pluck(i); f.armed = false; }
+      if (w < 0.2) f.armed = true;
+      var want = Math.max(w * 0.55, active === i ? 1 : 0, stones[i].boost);
+      f.pull += (want - f.pull) * 0.12;
+    });
     stones.forEach(function (s, idx) {
-      s.hover += ((hovered === idx ? 1 : 0) - s.hover) * 0.12;
+      s.hover += ((active === idx ? 1 : 0) - s.hover) * 0.12;
       s.boost *= 0.93;
       var grow = Math.max(0.0001, ease(Math.min(1, sp * 1.2 - idx * 0.05)));
       s.group.scale.setScalar(grow * (1 + s.hover * 0.35 + s.boost * 0.5));
@@ -198,7 +267,7 @@
       s.halo.scale.setScalar(2.2 + s.hover * 1 + s.boost * 3);
       s.edges.material.opacity = s.hover * 0.8 + s.boost;
       s.mesh.material.emissiveIntensity = 0.28 + s.hover * 0.4 + s.boost;
-      var out = 1 + scat * 2.2;
+      var out = (1 + scat * 2.2) * (1 - fingers[idx].pull * 0.06 * (1 - release));
       s.group.position.x = anchors[idx].x * out;
       s.group.position.y = anchors[idx].y * out;
       if (!reduce) {
@@ -225,6 +294,46 @@
     world.position.set(basePos.x - sc * basePos.x * 0.6, basePos.y + sc * 1.2, sc * 3);
     world.scale.setScalar(baseScale);
     rim.intensity = 2.2 + Math.sin(el * 2) * 0.4;
+
+    // Main : monte avec la formation, respire, se teinte de la pierre touchée, s'ouvre et descend au défilement
+    var narrowNow = canvas.clientWidth < 900;
+    hand.position.set(0, (narrowNow ? HAND_Y + 0.25 : HAND_Y) - (1 - e) * 3 - sc * 3, 0.6);
+    hand.rotation.x = -0.28 + (reduce ? 0 : Math.sin(el * 0.7) * 0.03);
+    hand.rotation.z = reduce ? 0 : Math.sin(el * 0.5) * 0.05;
+    hand.scale.setScalar(HAND_S * (narrowNow ? 0.72 : 1));
+    handTint.copy(active >= 0 ? tmp.set(ELEMENTS[active].color).multiplyScalar(0.35) : noTint);
+    handMat.emissive.lerp(handTint, 0.08);
+    fingers.forEach(function (f, i) {
+      var c = f.rest + f.pull * 0.45 - release * 0.55;
+      f.joints[0].rotation.x = c; f.joints[1].rotation.x = c * 1.35; f.joints[2].rotation.x = c * 1.15;
+    });
+    scene.updateMatrixWorld();
+    var lineA = 0.4 * sp * (1 - release);
+    fingers.forEach(function (f, i) {
+      f.tip.getWorldPosition(tipW); world.worldToLocal(tipW);
+      stones[i].group.getWorldPosition(stoneW); world.worldToLocal(stoneW);
+      ctrl.addVectors(tipW, stoneW).multiplyScalar(0.5);
+      ctrl.y -= 0.35 * (1 - f.pull); // le fil se tend quand le doigt tire
+      var a = f.line.geometry.attributes.position.array;
+      for (var k = 0; k <= 16; k++) {
+        var t = k / 16, u = 1 - t;
+        a[k * 3] = u * u * tipW.x + 2 * u * t * ctrl.x + t * t * stoneW.x;
+        a[k * 3 + 1] = u * u * tipW.y + 2 * u * t * ctrl.y + t * t * stoneW.y;
+        a[k * 3 + 2] = u * u * tipW.z + 2 * u * t * ctrl.z + t * t * stoneW.z;
+      }
+      f.line.geometry.attributes.position.needsUpdate = true;
+      f.line.material.opacity = lineA * (0.6 + f.pull * 1.4);
+      f.glow.material.opacity = sp * (1 - release) * (0.25 + f.pull * 0.75);
+      if (f.pulse < 1) {
+        f.pulse = Math.min(1, f.pulse + dt * 1.6);
+        var t2 = ease(f.pulse), u2 = 1 - t2;
+        f.spark.position.set(
+          u2 * u2 * tipW.x + 2 * u2 * t2 * ctrl.x + t2 * t2 * stoneW.x,
+          u2 * u2 * tipW.y + 2 * u2 * t2 * ctrl.y + t2 * t2 * stoneW.y,
+          u2 * u2 * tipW.z + 2 * u2 * t2 * ctrl.z + t2 * t2 * stoneW.z);
+        f.spark.material.opacity = Math.sin(f.pulse * Math.PI) * (1 - release);
+      } else f.spark.material.opacity = 0;
+    });
 
     renderer.render(scene, camera);
     if (!awake && prog > 0.3) { awake = true; wake(); }

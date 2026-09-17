@@ -17,10 +17,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="logo.png" type="image/png">
 <link rel="apple-touch-icon" href="logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Barlow:wght@400;500;600&family=Literata:ital,opsz,wght@1,7..72,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/kweni.css?v=10">
+<link rel="preload" href="assets/fonts/barlow-condensed-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css?v=11">
+<link rel="stylesheet" href="assets/css/kweni.css?v=11">
 
 </head>
 <body>
@@ -33,7 +32,7 @@
 </nav>
 </header>
 <main id="main">
-<section class="page-hero"><div class="wrap">
+<section class="page-hero has-img"><div class="ph-img" aria-hidden="true"><img src="assets/img/ph-presse.webp" alt="" width="1200" height="1000" fetchpriority="high"></div><div class="wrap">
 <h1 class="d1">Presse</h1>
 <p class="lede">Tout ce qu'il faut pour parler de Kweni Studio : les faits, les textes de présentation et les visuels officiels, libres d'usage pour un article sur le studio ou ses jeux.</p>
 </div></section>
@@ -51,7 +50,7 @@
 <section class="section"><div class="wrap">
 <h2 class="d2">Visuels</h2>
 <p class="lede" style="margin-top:18px">Clique sur un visuel pour le télécharger.</p>
-<div class="downloads"><a class="dl" href="logo.png" download><div class="thumb logo"><img src="logo.png" alt=""></div><span>Logo Kweni Studio<small>PNG, 800 × 800</small></span></a><a class="dl" href="PIERRE-ET-FORCE.jpg" download><div class="thumb"><img src="PIERRE-ET-FORCE.jpg" alt="" loading="lazy" data-fallback></div><span>De Pierre et de Force<small>JPG, 1672 × 941</small></span></a><a class="dl" href="AEM-WORLDCUP.jpg" download><div class="thumb"><img src="AEM-WORLDCUP.jpg" alt="" loading="lazy" data-fallback></div><span>African Elite Manager<small>JPG, 1672 × 941</small></span></a><a class="dl" href="AEM.jpg" download><div class="thumb"><img src="AEM.jpg" alt="" loading="lazy" data-fallback></div><span>Africa Elite Manager<small>JPG, 1672 × 941</small></span></a><a class="dl" href="AECM.jpg" download><div class="thumb"><img src="AECM.jpg" alt="" loading="lazy" data-fallback></div><span>Africa Elite Club Manager<small>JPG, 1672 × 941</small></span></a><a class="dl" href="BUZZKING.jpg" download><div class="thumb"><img src="BUZZKING.jpg" alt="" loading="lazy" data-fallback></div><span>BuzzKing<small>JPG, 1672 × 941</small></span></a><a class="dl" href="HERO.jpg" download><div class="thumb"><img src="HERO.jpg" alt="" loading="lazy"></div><span>Visuel du studio<small>JPG, 1672 × 941</small></span></a></div>
+<div class="downloads"><a class="dl" href="logo.png" download><div class="thumb logo"><img src="logo.png" alt=""></div><span>Logo Kweni Studio<small>PNG, 800 × 800</small></span></a><a class="dl" href="PIERRE-ET-FORCE.jpg" download><div class="thumb"><img src="PIERRE-ET-FORCE.jpg" alt="" loading="lazy" data-fallback></div><span>De Pierre et de Force<small>JPG, 1672 × 941</small></span></a><a class="dl" href="AEM-WORLDCUP.jpg" download><div class="thumb"><img src="AEM-WORLDCUP.jpg" alt="" loading="lazy" data-fallback></div><span>African Elite Manager<small>JPG, 1672 × 941</small></span></a><a class="dl" href="AEM.jpg" download><div class="thumb"><img src="AEM.jpg" alt="" loading="lazy" data-fallback></div><span>Africa Elite Manager<small>JPG, 1672 × 941</small></span></a><a class="dl" href="AECM.jpg" download><div class="thumb"><img src="AECM.jpg" alt="" loading="lazy" data-fallback></div><span>Africa Elite Club Manager<small>JPG, 1672 × 941</small></span></a><a class="dl" href="BUZZKING.jpg" download><div class="thumb"><img src="BUZZKING.jpg" alt="" loading="lazy" data-fallback></div><span>BuzzKing<small>JPG, 1672 × 941</small></span></a><a class="dl" href="HERO.jpg" download><div class="thumb"><img src="HERO.jpg" alt="" loading="lazy"></div><span>Visuel du studio<small>JPG, 1672 × 941</small></span></a><a class="dl" href="assets/img/niani.webp" download><div class="thumb"><img src="assets/img/niani.webp" alt="" loading="lazy"></div><span>Illustration : Niani, 1324<small>WebP, 1600 × 700</small></span></a><a class="dl" href="assets/img/cover-pef.webp" download><div class="thumb"><img src="assets/img/cover-pef.webp" alt="" loading="lazy"></div><span>Couverture : De Pierre et de Force<small>WebP, 900 × 1350</small></span></a><a class="dl" href="assets/img/cover-bishop.webp" download><div class="thumb"><img src="assets/img/cover-bishop.webp" alt="" loading="lazy"></div><span>Couverture : Bishop Allen<small>WebP, 900 × 1350</small></span></a></div>
 </div></section>
 <section class="cta section">
 <div class="wrap split">
@@ -88,9 +87,9 @@
 <p class="footer-mark" aria-hidden="true">Kweni Studio</p>
 </div>
 </footer>
-<script src="assets/js/kweni.js?v=10" defer></script>
-<script src="assets/js/motion.js?v=10" defer></script>
-<script src="assets/js/anim.js?v=10" defer></script>
-<script src="assets/js/fx.js?v=10" defer></script>
+<script src="assets/js/kweni.js?v=11" defer></script>
+<script src="assets/js/motion.js?v=11" defer></script>
+<script src="assets/js/anim.js?v=11" defer></script>
+<script src="assets/js/fx.js?v=11" defer></script>
 </body>
 </html>

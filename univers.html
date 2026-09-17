@@ -17,10 +17,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="logo.png" type="image/png">
 <link rel="apple-touch-icon" href="logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Barlow:wght@400;500;600&family=Literata:ital,opsz,wght@1,7..72,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/kweni.css?v=10">
+<link rel="preload" href="assets/fonts/barlow-condensed-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css?v=11">
+<link rel="stylesheet" href="assets/css/kweni.css?v=11">
 
 </head>
 <body>
@@ -33,7 +32,7 @@
 </nav>
 </header>
 <main id="main">
-<section class="page-hero"><div class="wrap">
+<section class="page-hero has-img"><div class="ph-img" aria-hidden="true"><img src="assets/img/ph-univers.webp" alt="" width="1600" height="900" fetchpriority="high"></div><div class="wrap">
 <h1 class="d1">Univers Kweni</h1>
 <p class="lede">Avant d'être des jeux, ce sont des histoires. Des récits écrits depuis Abidjan, qui puisent dans l'histoire du continent et dans le quotidien de la ville.</p>
 </div></section>
@@ -41,13 +40,14 @@
 <section class="section" style="padding-top:0"><div class="wrap">
 <h2 class="d2">La légende des cinq pierres</h2>
 <p class="lede" style="margin-top:22px">Le mythe fondateur de <a href="jeux/pierre-et-force.html">De Pierre et de Force</a>, du Mali médiéval à la Côte d'Ivoire des années 90.</p>
+<figure class="plate"><img src="assets/img/niani.webp" alt="Les cinq pierres s'envolent au-dessus de la mosquée de Niani, au crépuscule" loading="lazy" width="1600" height="700"><figcaption>Niani, 1324 : l'empereur disperse les cinq pierres.</figcaption></figure>
 <ol class="timeline"><li style="--c:#B5652B"><span class="when">1324</span><div><h3>Les cinq pierres de Kankou Moussa</h3><p class="where">Niani, Empire du Mali</p><p>Au sommet de sa puissance, l'empereur possède cinq pierres qui gouvernent la Terre, l'Eau, le Feu, l'Équilibre et l'Air.</p></div></li><li style="--c:#2E7BD6"><span class="when">1324</span><div><h3>La grande séparation</h3><p class="where">La Chambre des Poids, Niani</p><p>Sachant qu'elles ne peuvent rester réunies, il les disperse aux quatre coins du monde. Elles trouveront leurs porteurs quand l'humanité sera prête.</p></div></li><li style="--c:#D4A017"><span class="when">1983</span><div><h3>Le général Keïta</h3><p class="where">Marcory, Abidjan</p><p>Le père de Tarine retrouve la Pierre de l'Équilibre dans les archives de l'Empire et consacre sa vie à cacher les cinq pierres.</p></div></li><li style="--c:#E8121A"><span class="when">1996</span><div><h3>Le cadeau de papa</h3><p class="where">Marcory, 14 décembre</p><p>Une boîte sans adresse de retour. Dedans, une pierre tiède qui semble respirer. Tarine a treize ans.</p></div></li><li style="--c:#CFE3F0"><span class="when">1996</span><div><h3>Deux camps</h3><p class="where">Abidjan</p><p>Sgrün, l'Architecte, veut réunir les pierres pour imposer son ordre parfait. Les Gardiens du Sud se dressent contre l'Empire du Nord.</p></div></li></ol>
 </div></section>
 
 <section class="section"><div class="wrap">
 <h2 class="d2">Les livres</h2>
 <article class="book">
-<div class="cover" style="--bg:linear-gradient(160deg,#3a1206,#9E0C11 55%,#D4A017)"><small>Roman, tome I</small><div><b>De Pierre et de Force</b><i>L'Éveil</i></div><small>Yao Baba Ange Emmanuel</small></div>
+<div class="cover" style="background:linear-gradient(180deg,rgba(5,4,12,.55),rgba(5,4,12,0) 30%,rgba(5,4,12,0) 62%,rgba(5,4,12,.8)),url(assets/img/cover-pef.webp) center/cover"><small>Roman, tome I</small><div><b>De Pierre et de Force</b><i>L'Éveil</i></div><small>Yao Baba Ange Emmanuel</small></div>
 <div>
 <h3 class="d3">De Pierre et de Force : L'Éveil</h3>
 <p class="facts"><span>Afrofuturisme</span><span>Fantasy africaine</span><span>Plus de 70 000 mots</span><span>En soumission aux éditeurs</span></p>
@@ -56,7 +56,7 @@
 </div>
 </article>
 <article class="book">
-<div class="cover" style="--bg:linear-gradient(160deg,#07121f,#1B3A5C 55%,#E8121A)"><small>Série policière</small><div><b>Les Enquêtes de Bishop Allen</b><i>Polar décalé</i></div><small>Yao Baba Ange Emmanuel</small></div>
+<div class="cover" style="background:linear-gradient(180deg,rgba(3,7,13,.6),rgba(3,7,13,0) 30%,rgba(3,7,13,0) 62%,rgba(3,7,13,.85)),url(assets/img/cover-bishop.webp) center/cover"><small>Série policière</small><div><b>Les Enquêtes de Bishop Allen</b><i>Polar décalé</i></div><small>Yao Baba Ange Emmanuel</small></div>
 <div>
 <h3 class="d3">Les Enquêtes de Bishop Allen</h3>
 <p class="facts"><span>Polar</span><span>Humour</span><span>Plus de 50 000 mots</span><span>En cours d'écriture</span></p>
@@ -100,9 +100,9 @@
 <p class="footer-mark" aria-hidden="true">Kweni Studio</p>
 </div>
 </footer>
-<script src="assets/js/kweni.js?v=10" defer></script>
-<script src="assets/js/motion.js?v=10" defer></script>
-<script src="assets/js/anim.js?v=10" defer></script>
-<script src="assets/js/fx.js?v=10" defer></script>
+<script src="assets/js/kweni.js?v=11" defer></script>
+<script src="assets/js/motion.js?v=11" defer></script>
+<script src="assets/js/anim.js?v=11" defer></script>
+<script src="assets/js/fx.js?v=11" defer></script>
 </body>
 </html>
